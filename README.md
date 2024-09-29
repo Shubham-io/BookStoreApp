@@ -49,7 +49,7 @@ Register as a new user or log in to an existing account.
 
 - **Theme**: Toggle between light and dark themes using the theme switch button in the application.
 
-## Acknowledgments
+## Acknowledgment
 Special thanks to the open-source community for providing valuable tools and resources.
 
 
