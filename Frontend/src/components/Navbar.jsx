@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
+import { useAuth } from "../context/AuthProvider";
+import Logout from "./Logout";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
-  );
+  const [authUser, setAuthUser] = useAuth();
+  // console.log(authUser);
+  const savedTheme = localStorage.getItem("theme");
+
+  const [theme, setTheme] = useState(savedTheme ? savedTheme : "light");
   // getting root element
   const element = document.documentElement;
 
@@ -13,11 +17,11 @@ const Navbar = () => {
     if (theme === "dark") {
       element.classList.add("dark");
       localStorage.setItem("theme", "dark");
-      document.body.classList.add("dark");
+      // document.body.classList.add("dark");
     } else {
       element.classList.remove("dark");
       localStorage.setItem("theme", "light");
-      document.body.classList.remove("dark");
+      // document.body.classList.remove("dark");
     }
   }, [theme]);
 
@@ -37,19 +41,19 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <a href="/">Home</a>
+        <Link to="/">Home</Link>
       </li>
 
       <li>
-        <a href="/course">Course</a>
+        <Link to="/course">Course</Link>
       </li>
 
       <li>
-        <a href="/contact">Contact</a>
+        <Link to="/contact">Contact</Link>
       </li>
 
       <li>
-        <a href="/about">About</a>
+        <Link to="/about">About</Link>
       </li>
     </>
   );
@@ -151,14 +155,22 @@ const Navbar = () => {
                 </svg>
               </label>
             </div>
-            <div>
-              <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"
-              onClick={()=> document.getElementById("openLogin").showModal()}
-              >
-                Login
-              </a>
-              <Login/>
-            </div>
+
+            {authUser ? (
+              <Logout />
+            ) : (
+              <div>
+                <a
+                  className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer dark:bg-white dark:text-black"
+                  onClick={() =>
+                    document.getElementById("openLogin").showModal()
+                  }
+                >
+                  Login
+                </a>
+                <Login />
+              </div>
+            )}
           </div>
         </div>
       </div>
